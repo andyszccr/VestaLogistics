@@ -1,3 +1,7 @@
 <Solution>
   <Project Path="App/App.csproj" />
+  <Project Path="VestaLogisticsDB/VestaLogisticsDB.sqlproj">
+    <Build />
+    <Deploy />
+  </Project>
 </Solution>
