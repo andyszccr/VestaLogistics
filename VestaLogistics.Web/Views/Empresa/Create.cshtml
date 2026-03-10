@@ -1,0 +1,33 @@
+@model VestaLogistics.Entities.Plataforma.Empresa
+
+@{
+    ViewData["Title"] = "Crear Empresa";
+}
+
+<h1>Crear Empresa</h1>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="mb-3">
+                <label asp-for="NombreComercial" class="form-label">Nombre Comercial</label>
+                <input asp-for="NombreComercial" class="form-control" required />
+                <span asp-validation-for="NombreComercial" class="text-danger"></span>
+            </div>
+            
+            <div class="mb-3">
+                <label asp-for="CedulaJuridica" class="form-label">Cédula Jurídica</label>
+                <input asp-for="CedulaJuridica" class="form-control" required />
+                <span asp-validation-for="CedulaJuridica" class="text-danger"></span>
+            </div>
+            
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>

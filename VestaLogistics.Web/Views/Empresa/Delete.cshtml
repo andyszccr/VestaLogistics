@@ -1,0 +1,33 @@
+@model VestaLogistics.Entities.Plataforma.Empresa
+
+@{
+    ViewData["Title"] = "Eliminar Empresa";
+}
+
+<h1>Eliminar Empresa</h1>
+<h3>¿Estás seguro que deseas eliminar esta empresa?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">ID</dt>
+        <dd class="col-sm-9">@Model.EmpresaID</dd>
+        
+        <dt class="col-sm-3">Nombre Comercial</dt>
+        <dd class="col-sm-9">@Model.NombreComercial</dd>
+        
+        <dt class="col-sm-3">Cédula Jurídica</dt>
+        <dd class="col-sm-9">@Model.CedulaJuridica</dd>
+        
+        <dt class="col-sm-3">Fecha Registro</dt>
+        <dd class="col-sm-9">@(Model.FechaRegistro?.ToString("dd/MM/yyyy HH:mm"))</dd>
+        
+        <dt class="col-sm-3">Estado</dt>
+        <dd class="col-sm-9">@(Model.Estado == true ? "Activo" : "Inactivo")</dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="EmpresaID" />
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>

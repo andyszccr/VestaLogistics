@@ -17,24 +17,27 @@ public class EmpresaRepository : IEmpresaRepository
 
     public async Task<Empresa?> GetByIdAsync(int empresaId, bool incluirInactivas = false, CancellationToken cancellationToken = default)
     {
-        var list = await _context.Empresas
-            .FromSqlRaw(
-                "EXEC Plataforma.sp_Empresas_Select @EmpresaID = {0}, @IncluirInactivas = {1}",
-                empresaId,
-                incluirInactivas ? 1 : 0)
-            .AsNoTracking()
-            .ToListAsync(cancellationToken);
-        return list.FirstOrDefault();
+        var query = _context.Empresas.AsNoTracking()
+            .Where(e => e.EmpresaID == empresaId);
+        if (!incluirInactivas)
+            query = query.Where(e => e.Estado == true);
+        return await query.FirstOrDefaultAsync(cancellationToken);
     }
 
     public async Task<IReadOnlyList<Empresa>> GetAllAsync(bool incluirInactivas = false, CancellationToken cancellationToken = default)
     {
-        return await _context.Empresas
-            .FromSqlRaw(
-                "EXEC Plataforma.sp_Empresas_Select @EmpresaID = NULL, @IncluirInactivas = {0}",
-                incluirInactivas ? 1 : 0)
-            .AsNoTracking()
-            .ToListAsync(cancellationToken);
+        try
+        {
+            var query = _context.Empresas.AsNoTracking();
+            if (!incluirInactivas)
+                query = query.Where(e => e.Estado == true);
+            return await query.ToListAsync(cancellationToken);
+        }
+        catch (Exception ex) when (ex.InnerException != null)
+        {
+            // Expone el error real de SQL (conexión, base de datos, tabla) en lugar del mensaje genérico "transient failure".
+            throw ex.InnerException;
+        }
     }
 
     public async Task<int> InsertAsync(string nombreComercial, string cedulaJuridica, int usuarioIdAuditoria, CancellationToken cancellationToken = default)

@@ -1,0 +1,49 @@
+@model IEnumerable<VestaLogistics.Entities.Plataforma.Empresa>
+
+@{
+    ViewData["Title"] = "Empresas";
+}
+
+<h1>Empresas</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Crear Nueva Empresa</a>
+</p>
+
+<table class="table table-striped table-hover mt-3">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Nombre Comercial</th>
+            <th>Cédula Jurídica</th>
+            <th>Fecha Registro</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.EmpresaID</td>
+                <td>@item.NombreComercial</td>
+                <td>@item.CedulaJuridica</td>
+                <td>@(item.FechaRegistro?.ToString("dd/MM/yyyy HH:mm"))</td>
+                <td>
+                    @if (item.Estado == true)
+                    {
+                        <span class="badge bg-success">Activo</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">Inactivo</span>
+                    }
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.EmpresaID" class="btn btn-sm btn-warning">Editar</a>
+                    <a asp-action="Delete" asp-route-id="@item.EmpresaID" class="btn btn-sm btn-danger">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,41 @@
+@model VestaLogistics.Entities.Plataforma.Empresa
+
+@{
+    ViewData["Title"] = "Editar Empresa";
+}
+
+<h1>Editar Empresa</h1>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="EmpresaID" />
+            
+            <div class="mb-3">
+                <label asp-for="NombreComercial" class="form-label">Nombre Comercial</label>
+                <input asp-for="NombreComercial" class="form-control" required />
+                <span asp-validation-for="NombreComercial" class="text-danger"></span>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Cédula Jurídica</label>
+                <input value="@Model.CedulaJuridica" class="form-control" disabled />
+                <small class="text-muted">La cédula jurídica no se puede editar.</small>
+            </div>
+            
+            <div class="mb-3 form-check">
+                <input class="form-check-input" type="checkbox" asp-for="Estado">
+                <label class="form-check-label" asp-for="Estado">
+                    Estado Activo
+                </label>
+            </div>
+            
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>

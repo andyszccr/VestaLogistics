@@ -24,6 +24,7 @@ builder.Services.AddScoped<IEmpresaRepository, EmpresaRepository>();
 
 // Servicios de negocio
 builder.Services.AddScoped<ITipoCambioService, TipoCambioService>();
+builder.Services.AddScoped<IEmpresaService, EmpresaService>();
 
 builder.Services.AddControllersWithViews();
 
