@@ -1,7 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using VestaLogistics.Data;
-using VestaLogistics.Web.Services;
+using VestaLogistics.Business.Clients;
 using VestaLogistics.Business.Services;
+using VestaLogistics.Data;
+using VestaLogistics.Web.Clients;
+using VestaLogistics.Web.Options;
+using VestaLogistics.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +24,11 @@ builder.Services.AddDbContext<VestaLogisticsDbContext>(options =>
 
 // Repositorios
 builder.Services.AddScoped<IEmpresaRepository, EmpresaRepository>();
+
+// API externa: tipo de cambio Hacienda (https://api.hacienda.go.cr/indicadores/tc/dolar)
+builder.Services.Configure<HaciendaTipoCambioOptions>(
+    builder.Configuration.GetSection(HaciendaTipoCambioOptions.SectionName));
+builder.Services.AddHttpClient<ITipoCambioExternoClient, HaciendaTipoCambioClient>();
 
 // Servicios de negocio
 builder.Services.AddScoped<ITipoCambioService, TipoCambioService>();
