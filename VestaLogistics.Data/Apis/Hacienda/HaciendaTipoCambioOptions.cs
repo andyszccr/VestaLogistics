@@ -1,4 +1,4 @@
-namespace VestaLogistics.Web.Options;
+namespace VestaLogistics.Data.Apis.Hacienda;
 
 /// <summary>
 /// Configuración para el API de tipo de cambio de Hacienda Costa Rica.

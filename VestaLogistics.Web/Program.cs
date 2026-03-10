@@ -1,34 +1,19 @@
-using Microsoft.EntityFrameworkCore;
-using VestaLogistics.Business.Clients;
+using VestaLogistics.Business.Extensions;
 using VestaLogistics.Business.Services;
 using VestaLogistics.Data;
-using VestaLogistics.Web.Clients;
-using VestaLogistics.Web.Options;
 using VestaLogistics.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Base de datos
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-    ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
 // Tenant: resuelve EmpresaID por request (claims, subdominio, header, etc.)
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ITenantContext, TenantContext>();
 
-// DbContext con soporte Multitenant. El contenedor inyecta ITenantContext en el constructor del DbContext.
-builder.Services.AddDbContext<VestaLogisticsDbContext>(options =>
-{
-    options.UseSqlServer(connectionString);
-});
+// Data (DbContext y repositorios): registro vía Business → Data
+builder.Services.AddVestaLogisticsData(builder.Configuration);
 
-// Repositorios
-builder.Services.AddScoped<IEmpresaRepository, EmpresaRepository>();
-
-// API externa: tipo de cambio Hacienda (https://api.hacienda.go.cr/indicadores/tc/dolar)
-builder.Services.Configure<HaciendaTipoCambioOptions>(
-    builder.Configuration.GetSection(HaciendaTipoCambioOptions.SectionName));
-builder.Services.AddHttpClient<ITipoCambioExternoClient, HaciendaTipoCambioClient>();
+// API externa: tipo de cambio Hacienda (registro vía Business → Data; el valor fluye Data → Business → Web)
+builder.Services.AddHaciendaTipoCambio(builder.Configuration);
 
 // Servicios de negocio
 builder.Services.AddScoped<ITipoCambioService, TipoCambioService>();

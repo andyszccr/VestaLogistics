@@ -1,4 +1,4 @@
-namespace VestaLogistics.Business.Clients;
+namespace VestaLogistics.Data.Apis;
 
 /// <summary>
 /// Cliente para obtener tipo de cambio desde una API externa (ej. Hacienda Costa Rica).

@@ -1,10 +1,9 @@
 using System.Net.Http.Json;
 using System.Text.Json;
 using Microsoft.Extensions.Options;
-using VestaLogistics.Business.Clients;
-using VestaLogistics.Web.Options;
+using VestaLogistics.Data.Apis;
 
-namespace VestaLogistics.Web.Clients;
+namespace VestaLogistics.Data.Apis.Hacienda;
 
 /// <summary>
 /// Cliente para el API de tipo de cambio de Hacienda Costa Rica.
@@ -33,10 +32,9 @@ public class HaciendaTipoCambioClient : ITipoCambioExternoClient
         response.EnsureSuccessStatusCode();
 
         var dto = await response.Content.ReadFromJsonAsync<HaciendaTipoCambioDto>(JsonOptions, cancellationToken).ConfigureAwait(false)
-                ?? throw new InvalidOperationException("La respuesta del API de Hacienda no contiene datos.");
+            ?? throw new InvalidOperationException("La respuesta del API de Hacienda no contiene datos.");
 
         return (dto.Compra.Valor, dto.Venta.Valor);
-           
     }
 
     private sealed class HaciendaTipoCambioDto
