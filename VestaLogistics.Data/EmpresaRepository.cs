@@ -28,10 +28,10 @@ public class EmpresaRepository : IEmpresaRepository
     {
         try
         {
-            var query = _context.Empresas.AsNoTracking();
-            if (!incluirInactivas)
-                query = query.Where(e => e.Estado == true);
-            return await query.ToListAsync(cancellationToken);
+            var result = await _context.Database
+                .SqlQueryRaw<Empresa>("EXEC Plataforma.sp_Empresas_Select")
+                .ToListAsync(cancellationToken);
+            return result;
         }
         catch (Exception ex) when (ex.InnerException != null)
         {

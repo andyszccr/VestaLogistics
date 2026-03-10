@@ -41,6 +41,10 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthorization();
 
+// API: controladores con [Route("api/...")]
+app.MapControllers();
+
+// MVC: páginas y ruta por defecto
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
