@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using VestaLogistics.Entities;
 
-namespace VestaLogistics.Entities.Plataforma
+namespace VestaLogistics.Entities.Plataforma;
+
+/// <summary>
+/// POCO que representa la tabla Config.Sucursales.
+/// Implementa IEntityWithEmpresa para filtro multitenant.
+/// </summary>
+public class Sucursales : IEntityWithEmpresa
 {
-    public class Sucursales
-    {
-        public int Sucursalid { get; set; }
-        public int Empresaid { get; set; }
-        public string Nombre { get; set; } = string.Empty;
-    }
+    public int SucursalID { get; set; }
+    public int EmpresaID { get; set; }
+    public string Nombre { get; set; } = string.Empty;
 }

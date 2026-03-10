@@ -33,6 +33,7 @@ public class VestaLogisticsDbContext : DbContext
     internal int CurrentEmpresaId => _tenantContext?.EmpresaId ?? 0;
 
     public DbSet<Empresa> Empresas => Set<Empresa>();
+    public DbSet<Sucursales> Sucursales => Set<Sucursales>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -45,6 +46,18 @@ public class VestaLogisticsDbContext : DbContext
             entity.HasKey(e => e.EmpresaID);
             entity.Property(e => e.NombreComercial).HasMaxLength(200);
             entity.Property(e => e.CedulaJuridica).HasMaxLength(20);
+        });
+
+        // Configuración de la tabla Sucursales (esquema Config)
+        modelBuilder.Entity<Sucursales>(entity =>
+        {
+            entity.ToTable("Sucursales", "Config");
+            entity.HasKey(e => e.SucursalID);
+            entity.Property(e => e.Nombre).HasMaxLength(100);
+            entity.HasOne<Empresa>()
+                .WithMany()
+                .HasForeignKey(e => e.EmpresaID)
+                .OnDelete(DeleteBehavior.Restrict);
         });
 
         // Global Query Filter para todas las entidades que implementan IEntityWithEmpresa
