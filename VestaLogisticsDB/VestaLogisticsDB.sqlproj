@@ -65,6 +65,7 @@
     <Folder Include="Compras\" />
     <Folder Include="Compras\Tables\" />
     <Folder Include="Security\" />
+    <Folder Include="Plataforma\Stored Procedures\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Plataforma\Tables\Empresas.sql" />
@@ -87,5 +88,9 @@
     <Build Include="Security\Inventario.sql" />
     <Build Include="Security\Config.sql" />
     <Build Include="Security\Compras.sql" />
+    <Build Include="Plataforma\Stored Procedures\sp_Empresas_Update.sql" />
+    <Build Include="Plataforma\Stored Procedures\sp_Empresas_Select.sql" />
+    <Build Include="Plataforma\Stored Procedures\sp_Empresas_Insert.sql" />
+    <Build Include="Plataforma\Stored Procedures\sp_Empresas_Delete.sql" />
   </ItemGroup>
 </Project>
