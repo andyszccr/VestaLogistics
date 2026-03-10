@@ -1,6 +1,10 @@
 <Solution>
   <Project Path="App/App.csproj" />
-  <Project Path="VestaLogisticsDB/VestaLogisticsDB.sqlproj">
+  <Project Path="VestaLogistics.Web/VestaLogistics.Web.csproj" />
+  <Project Path="VestaLogistics.Business/VestaLogistics.Business.csproj" />
+  <Project Path="VestaLogistics.Data/VestaLogistics.Data.csproj" />
+  <Project Path="VestaLogistics.Entities/VestaLogistics.Entities.csproj" />
+  <Project Path="VestaLogisticsDB/VestaLogisticsDB.sqlproj" Id="bf03a54d-bb36-4d5e-89fa-8157cfe7cb47">
     <Build />
     <Deploy />
   </Project>
