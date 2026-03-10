@@ -66,6 +66,8 @@
     <Folder Include="Compras\Tables\" />
     <Folder Include="Security\" />
     <Folder Include="Plataforma\Stored Procedures\" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Stored Procedures\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Plataforma\Tables\Empresas.sql" />
@@ -92,5 +94,6 @@
     <Build Include="Plataforma\Stored Procedures\sp_Empresas_Select.sql" />
     <Build Include="Plataforma\Stored Procedures\sp_Empresas_Insert.sql" />
     <Build Include="Plataforma\Stored Procedures\sp_Empresas_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\GenerarClaseCSharp.sql" />
   </ItemGroup>
 </Project>
