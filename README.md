@@ -1,157 +1,250 @@
-# Vesta Logistics
+# 🏛️ Vesta Logistics
 
-Sistema **SaaS Multitenant** de control de inventarios y facturación, desarrollado en **ASP.NET Core MVC** con arquitectura N-Tier.
+**Plataforma SaaS Multitenant de Control de Inventarios y Facturación Inmobiliaria**
 
----
-
-## Stack tecnológico
-
-| Componente        | Tecnología                          |
-|-------------------|-------------------------------------|
-| Framework         | ASP.NET Core MVC                    |
-| Lenguaje          | C# (.NET 10)                        |
-| Base de datos     | SQL Server                          |
-| ORM               | Entity Framework Core (Database First) |
-| Persistencia      | Stored Procedures existentes       |
+![.NET](https://img.shields.io/badge/.NET-10.0-512BD4?style=for-the-badge&logo=dotnet)
+![C#](https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=c-sharp&logoColor=white)
+![SQL Server](https://img.shields.io/badge/SQL_Server-CC2927?style=for-the-badge&logo=microsoft-sql-server&logoColor=white)
+![ASP.NET Core MVC](https://img.shields.io/badge/ASP.NET_Core_MVC-0058B0?style=for-the-badge&logo=aspnet&logoColor=white)
 
 ---
 
-## Arquitectura (N-Tier)
+# 📖 Resumen Ejecutivo
 
-La solución está organizada en cuatro proyectos de capas:
+**Vesta Logistics** es una plataforma **SaaS empresarial** diseñada para resolver los desafíos de **trazabilidad de inventarios, proveeduría y facturación** dentro del sector de **construcción y bienes raíces**.
 
-```
+El sistema permite gestionar múltiples empresas desde una sola plataforma mediante una arquitectura **Multitenant**, garantizando **aislamiento total de datos por empresa**, trazabilidad de operaciones y una experiencia optimizada para equipos administrativos y personal de campo.
+
+La solución está construida con **ASP.NET Core MVC, C#, SQL Server y Entity Framework Core**, siguiendo una arquitectura **N-Tier** y principios **SOLID**, lo que permite escalabilidad, mantenibilidad y alto rendimiento en operaciones críticas.
+
+---
+
+# 🎯 Objetivos del Sistema
+
+El propósito principal de **Vesta Logistics** es:
+
+- Centralizar la gestión de **inventarios de materiales de construcción**
+- Automatizar el **proceso de facturación y compras**
+- Mejorar la **trazabilidad logística**
+- Reducir **errores humanos en cálculos financieros**
+- Permitir la **gestión remota desde obras o proyectos**
+
+---
+
+# ✨ Características Principales
+
+## 🏢 Arquitectura Multitenant
+
+El sistema permite que **múltiples empresas utilicen la misma aplicación** sin mezclar datos.
+
+Se implementa mediante:
+
+- `EmpresaID`
+- **Global Query Filters** en Entity Framework Core
+- Interfaces como `IEntityWithEmpresa`
+
+Esto garantiza **aislamiento total de datos entre empresas**.
+
+---
+
+## 📦 Control de Inventario en Tiempo Real
+
+El sistema permite registrar:
+
+- Entradas de inventario mediante **facturas de compra**
+- Salidas de inventario hacia **proyectos de construcción**
+- Control de stock disponible
+- Historial de movimientos
+
+Cada movimiento queda registrado para **auditoría completa del inventario**.
+
+---
+
+## 🧾 Facturación Automatizada
+
+El sistema calcula automáticamente:
+
+- **IVA (13%)**
+- Subtotales
+- Totales de factura
+- Multas por entregas tardías
+
+Esto se realiza mediante **reglas de negocio en C# (POO)** para evitar errores manuales.
+
+---
+
+## 💱 Facturación Multimoneda
+
+Integración con el **Banco Central de Costa Rica (BCCR)** mediante servicio **SOAP**, permitiendo:
+
+- Actualización diaria de:
+  - Tipo de cambio compra
+  - Tipo de cambio venta
+- Facturación en:
+  - CRC
+  - USD
+
+---
+
+## 🔐 Seguridad y Control de Acceso
+
+Implementación de **RBAC (Role-Based Access Control)** con:
+
+- Gestión de usuarios
+- Roles y permisos
+- Encriptación de contraseñas (`PasswordHash`)
+- Bitácoras de acceso
+- Registro de eventos del sistema
+
+---
+
+# 💻 Stack Tecnológico
+
+| Capa / Componente | Tecnología | Propósito |
+|---|---|---|
+| **Framework Base** | ASP.NET Core MVC | Estructura de aplicación web |
+| **Lenguaje Backend** | C# (.NET 10) | Lógica de negocio y cálculos |
+| **Base de Datos** | SQL Server | Persistencia de datos |
+| **ORM** | Entity Framework Core | Mapeo objeto-relacional |
+| **Persistencia Avanzada** | Stored Procedures | Optimización de consultas |
+| **Frontend** | HTML5, CSS3, Bootstrap 5 | Interfaz responsiva |
+| **API Externa** | BCCR SOAP API | Tipos de cambio |
+
+---
+
+# 🏗️ Arquitectura del Sistema (N-Tier)
+
+
 ┌─────────────────────────────────────────────────────────┐
-│  VestaLogistics.Web          (Presentación)             │
-│  Controllers, Views, wwwroot, CSS institucional         │
+│ VestaLogistics.Web (Presentación / UI) │
+│ Controllers, Views, wwwroot, Inyección de Dependencias │
 └───────────────────────────┬────────────────────────────┘
-                            │
+│
 ┌───────────────────────────▼────────────────────────────┐
-│  VestaLogistics.Business  (Lógica de negocio)           │
-│  Servicios, validaciones, IVA/multas, TipoCambioService  │
+│ VestaLogistics.Business (Lógica de Negocio / BLL) │
+│ Servicios, validaciones, reglas financieras │
 └───────────────────────────┬────────────────────────────┘
-                            │
+│
 ┌───────────────────────────▼────────────────────────────┐
-│  VestaLogistics.Data       (Acceso a datos)              │
-│  DbContext, Repositorios, Stored Procedures              │
+│ VestaLogistics.Data (Acceso a Datos / DAL) │
+│ DbContext, repositorios, stored procedures │
 └───────────────────────────┬────────────────────────────┘
-                            │
+│
 ┌───────────────────────────▼────────────────────────────┐
-│  VestaLogistics.Entities   (Modelos compartidos)         │
-│  POCOs, IEntityWithEmpresa (multitenancy)               │
+│ VestaLogistics.Entities (Modelos / Entidades) │
+│ POCO Models, IEntityWithEmpresa │
 └─────────────────────────────────────────────────────────┘
-```
 
-- **VestaLogistics.Web**: UI, layout con identidad visual (Azul Vesta, Dorado, Teal), configuración de DI y tenant.
-- **VestaLogistics.Business**: Reglas de negocio, cálculos y esqueleto del servicio de tipo de cambio (BCCR).
-- **VestaLogistics.Data**: `VestaLogisticsDbContext`, Global Query Filter por `EmpresaID`, `IRepository<T>`, `EmpresaRepository` (SPs).
-- **VestaLogistics.Entities**: Entidades que mapean tablas y la interfaz `IEntityWithEmpresa` para multitenancy.
-
-Además, la solución incluye **VestaLogisticsDB** (proyecto de base de datos con tablas y Stored Procedures) y **App** (proyecto legacy si aplica).
 
 ---
 
-## Requisitos previos
+# 🗂️ Estructura del Proyecto
 
-- [.NET 10 SDK](https://dotnet.microsoft.com/download)
-- SQL Server (LocalDB, Express o completo)
-- Base de datos **VestaLogistics** creada y scripts de **VestaLogisticsDB** desplegados (esquemas, tablas, SPs)
+
+VestaLogistics
+│
+├── VestaLogistics.Web
+│ ├── Controllers
+│ ├── Views
+│ ├── wwwroot
+│ └── Program.cs
+│
+├── VestaLogistics.Business
+│ ├── Services
+│ ├── BusinessRules
+│ └── APIIntegrations
+│
+├── VestaLogistics.Data
+│ ├── DbContext
+│ ├── Repositories
+│ └── StoredProcedures
+│
+├── VestaLogistics.Entities
+│ ├── Models
+│ └── Interfaces
+│
+└── Database
+├── Tables
+├── StoredProcedures
+└── Scripts
+
 
 ---
 
-## Configuración y ejecución
+# 🎨 Identidad Visual
 
-### 1. Clonar / abrir la solución
+La interfaz utiliza una paleta corporativa diseñada para transmitir **confianza y eficiencia logística**.
+
+| Color | Código | Uso |
+|------|------|------|
+| Azul Vesta | `#1A2F50` | Navbar / títulos |
+| Dorado | `#C5A062` | Detalles |
+| Teal | `#337085` | Botones principales |
+| Crema | `#F3EFE9` | Fondo |
+
+---
+
+# ⚙️ Requisitos del Sistema
+
+Para ejecutar el proyecto localmente se requiere:
+
+- .NET SDK **10.0**
+- **Visual Studio 2022**
+- **SQL Server**
+- **SQL Server Management Studio**
+
+---
+
+# 🚀 Instalación
+
+### 1️⃣ Clonar repositorio
 
 ```bash
+git clone https://github.com/andyszccr/VestaLogistics.git
 cd VestaLogistics
-```
+2️⃣ Crear la base de datos
+CREATE DATABASE VestaLogisticsDB
 
-Abrir `VestaLogistics.slnx` en Visual Studio o en Cursor/VS Code.
+Ejecutar posteriormente los scripts de:
 
-### 2. Cadena de conexión
+tablas
+stored procedures
+datos iniciales
+3️⃣ Configurar conexión
 
-En **VestaLogistics.Web**, editar `appsettings.json` (o `appsettings.Development.json`) y ajustar la conexión a tu instancia de SQL Server:
+Editar appsettings.json
 
-```json
 "ConnectionStrings": {
-  "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=VestaLogistics;Trusted_Connection=True;MultipleActiveResultSets=true"
+  "DefaultConnection": "Server=.;Database=VestaLogisticsDB;Trusted_Connection=True;TrustServerCertificate=True"
 }
-```
+4️⃣ Ejecutar aplicación
+dotnet build
+dotnet run
+📊 Beneficios del Sistema
 
-Ejemplo para SQL Server con usuario/contraseña:
+✔ Control total del inventario
+✔ Automatización financiera
+✔ Reducción de errores humanos
+✔ Arquitectura SaaS escalable
+✔ Sistema auditable
+✔ Acceso desde obra o proyectos
 
-```json
-"DefaultConnection": "Server=.;Database=VestaLogistics;User Id=sa;Password=TuPassword;TrustServerCertificate=True;MultipleActiveResultSets=true"
-```
+🔮 Futuras Mejoras
+API REST pública
+Dashboard de analytics
+Integración con Power BI
+Aplicación móvil
+Notificaciones en tiempo real
+👨‍💻 Autor
 
-### 3. Compilar
+Andy Zúñiga
 
-```bash
-dotnet build VestaLogistics.Web/VestaLogistics.Web.csproj
-```
+Software Developer | Backend | Data Analytics
 
-### 4. Ejecutar la aplicación web
+Tecnologías principales:
 
-```bash
-dotnet run --project VestaLogistics.Web/VestaLogistics.Web.csproj
-```
-
-O desde Visual Studio: establecer **VestaLogistics.Web** como proyecto de inicio y pulsar F5.
-
-La aplicación se abrirá en `https://localhost:5001` o `http://localhost:5000` (según `launchSettings.json`).
-
----
-
-## Multitenancy
-
-- El **Global Query Filter** en `VestaLogisticsDbContext` filtra automáticamente por `EmpresaID` en todas las entidades que implementan `IEntityWithEmpresa`.
-- El tenant actual se resuelve con **ITenantContext**, implementado en Web como **TenantContext**:
-  - Claim `EmpresaID` del usuario autenticado.
-  - Cabecera HTTP `X-Tenant-ID`.
-- Para que el filtro aplique correctamente, cada request debe tener un tenant definido (claims o header).
-
----
-
-## Identidad visual (CSS)
-
-En `VestaLogistics.Web/wwwroot/css/site.css` están definidas las variables:
-
-| Nombre      | Hex       | Uso principal        |
-|------------|-----------|----------------------|
-| Azul Vesta | `#1A2F50` | Navbar, footer, títulos |
-| Dorado     | `#C5A062` | Acentos, enlaces     |
-| Teal       | `#337085` | Texto secundario, botones, bordes |
-
----
-
-## API BCCR (tipo de cambio)
-
-El servicio **TipoCambioService** en **VestaLogistics.Business** está preparado para integrar el API del Banco Central de Costa Rica. Actualmente devuelve valores placeholder. Próximos pasos:
-
-- Configurar URL e indicadores del BCCR (ej. 317 compra, 318 venta).
-- Inyectar `IHttpClientFactory` y consumir el servicio web del BCCR.
-
-Documentación de referencia: [BCCR - Indicadores económicos](https://www.bccr.fi.cr/seccion-indicadores-economicos/servicio-web).
-
----
-
-## Estructura de carpetas (resumen)
-
-```
-VestaLogistics/
-├── README.md
-├── VestaLogistics.slnx
-├── VestaLogistics.Entities/       # POCOs, IEntityWithEmpresa
-├── VestaLogistics.Data/           # DbContext, repositorios, SPs
-├── VestaLogistics.Business/       # Servicios (TipoCambio, etc.)
-├── VestaLogistics.Web/            # MVC, Views, wwwroot, DI
-├── VestaLogisticsDB/              # Proyecto SQL (tablas, SPs)
-└── App/                           # Proyecto legacy (opcional)
-```
-
----
-
-## Licencia
-
-Uso interno / proyecto PR0005 - Inmobiliarios.
+C#
+.NET
+SQL Server
+Power BI
+Arquitectura de Software
