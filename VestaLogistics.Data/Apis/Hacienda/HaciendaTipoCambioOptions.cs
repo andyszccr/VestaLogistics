@@ -13,4 +13,5 @@ public class HaciendaTipoCambioOptions
 
     /// <summary>Timeout en segundos para las llamadas HTTP.</summary>
     public int TimeoutSeconds { get; set; } = 10;
+
 }
